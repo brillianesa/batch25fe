@@ -14,7 +14,8 @@ function Cards() {
     const [data, setData] = useState([])
     const [state, setState] = useState(true)
     const [counter, setCounter ] = useState(5)
-    const [isDisabled, setIsDisabled] =useState(false)
+    const [isPlusDisabled, setIsPlusDisabled] =useState(false)
+    const [isMinusDisabled, setIsMinusDisabled] =useState(false)
 
     useEffect(()=>{
         setData([
@@ -34,31 +35,20 @@ function Cards() {
     }, [])
 
     useEffect(() =>{
-        
-    }, [])
+        setIsPlusDisabled(counter >= 10)
+        setIsMinusDisabled(counter <= 0)
+    }, [counter])
         
 
     const handleIncrement = () => {
-        if (counter >= 10) {
-          setCounter(10);
-          document.getElementById("plus").disabled = true;
-        } else {
-          setCounter(counter + 1);
-          if (counter > 0) {
-            document.getElementById("minus").disabled = false;
-          }
+        if (counter < 10) {
+          setCounter(counter+1)
         }
       };
       
       const handleDecrement = () => {
-        if (counter <= 0) {
-          setCounter(0);
-          document.getElementById("minus").disabled = true;
-        } else {
-          setCounter(counter - 1);
-          if (counter < 10) {
-            document.getElementById("plus").disabled = false;
-          }
+        if (counter > 0) {
+          setCounter(counter-1)
         }
       };
       
@@ -66,9 +56,9 @@ function Cards() {
     return (
         <>
         {/* <button >SSSSSSSSSSSSSSSSSSSSSSSSSSs</button> */}
-        <button id="plus" onClick={handleIncrement}>+</button>
+        <button id="plus" onClick={handleIncrement} disabled={isPlusDisabled}>+</button>
         <a>{counter}</a>
-        <button id="minus" onClick={handleDecrement}>-</button>
+        <button id="minus" onClick={handleDecrement} disabled={isMinusDisabled}>-</button>
 
             <Carousel data-bs-theme="dark">
                 {
