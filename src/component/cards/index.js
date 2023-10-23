@@ -7,16 +7,22 @@ import jougan from './jougan.png';
 import sannin from './sannin.png';
 import Carousel from 'react-bootstrap/Carousel';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 
 
 function Cards() {
     const [data, setData] = useState([])
+    const [ dataLogin, setDataLogin ] = useState({
+        username: '',
+        password: ''
+    })
     const [state, setState] = useState(true)
     const [counter, setCounter ] = useState(5)
     const [isPlusDisabled, setIsPlusDisabled] =useState(false)
     const [isMinusDisabled, setIsMinusDisabled] =useState(false)
 
+    
     useEffect(()=>{
         setData([
             {
@@ -51,10 +57,41 @@ function Cards() {
           setCounter(counter-1)
         }
       };
+
+      const handleChange = (e)=> {
+        const {name , value} = e.target;
+        setDataLogin(prevState => ({
+            ...prevState,
+            [name]: value
+        }))
+      }
+
+      const handleSubmit = () => {
+        let object= {
+            username: dataLogin.username,
+            password: dataLogin.password
+        }
+        axios.post({
+            url: "http://localhost:8088/account/login",
+            data: object,
+            headers: {
+                'ContentType': "application/json"
+            }
+        }).then((response) =>{
+            console.log(response)
+        }).catch((error) => {
+            console.log(error)
+        })
+      }
       
      
     return (
         <>
+        <div>
+            <input name="username" type='text' value={data.username} onChange={handleChange}></input>
+            <input name="password" type='password' value={data.password} onChange={handleChange}></input>
+            <button name='submit' onClick={handleSubmit}>Submit</button>
+        </div>
         {/* <button >SSSSSSSSSSSSSSSSSSSSSSSSSSs</button> */}
         <button id="plus" onClick={handleIncrement} disabled={isPlusDisabled}>+</button>
         <a>{counter}</a>
