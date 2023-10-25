@@ -4,28 +4,33 @@ import './App.css';
 import Homepage from './component/page/homepage';
 import Cards from './component/cards';
 import { useEffect, useState } from 'react';
+import LocalStorages from './component/page/localStorage';
+import { increment, decrement } from './features/counterSlice';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from './component/page/layout/layout';
 
 
 function App() {
-  const [ logo, setLogo ] = useState("")
+  // const [logo, setLogo] = useState("")
 
-  useEffect(()=>{
-    setLogo(sharingan)
-  },[])
+  // useEffect(() => {
+  //   setLogo(sharingan)
+  // }, [])
 
   return (
     <>
-    <body>
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo.png" />
-      </header>
-      <Homepage title="Sejarah" deskripsi = "Deskripsi," tanggal=" 19 Oktober, 2023"></Homepage>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Layout/>}>
+          <Route path='/cards' element={<Cards/>}></Route>
+          <Route path='/page' element={<Homepage/>}></Route>
+          </Route>
+        </Routes>
 
-    </div>
-    <Cards></Cards>
-    </body>
-   
+      </BrowserRouter>
+
+
+
     </>
   );
 }
