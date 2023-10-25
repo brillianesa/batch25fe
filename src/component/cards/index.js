@@ -71,7 +71,8 @@ function Cards() {
             username: dataLogin.username,
             password: dataLogin.password
         }
-        axios.post({
+        axios({
+            method: "POST",
             url: "http://localhost:8088/account/login",
             data: object,
             headers: {
